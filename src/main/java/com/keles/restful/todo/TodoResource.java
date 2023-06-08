@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -39,5 +42,14 @@ public class TodoResource {
         Todo todoUpdated = todoService.save(todo);
         return new ResponseEntity<Todo>(todo, HttpStatus.OK);
     }
+    @PostMapping("users/{username}/todos")
+    public ResponseEntity<Void> createTodo(@PathVariable String username,
+                                           @PathVariable long id,@RequestBody Todo todo) {
+        Todo todoCreate = todoService.save(todo);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(todoCreate.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
 
 }
