@@ -1,9 +1,16 @@
 package com.keles.restful.todo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Todo {
+    @Id
+    @GeneratedValue
     private long id;
     private String username;
     private String description;
@@ -11,11 +18,16 @@ public class Todo {
     private boolean isDone;
 
     public Todo(long id, String username, String description, Date targetDate, boolean isDone) {
+        super();
         this.id = id;
         this.username = username;
         this.description = description;
         this.targetDate = targetDate;
         this.isDone = isDone;
+    }
+
+    public Todo() {
+
     }
 
     public long getId() {

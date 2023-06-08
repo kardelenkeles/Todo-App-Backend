@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -36,18 +35,18 @@ public class TodoResource {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("users/{username}/todos/{id}")
+    @PutMapping("/users/{username}/todos/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable String username,
                                            @PathVariable long id,@RequestBody Todo todo) {
         Todo todoUpdated = todoService.save(todo);
         return new ResponseEntity<Todo>(todo, HttpStatus.OK);
     }
-    @PostMapping("users/{username}/todos")
+    @PostMapping("/users/{username}/todos/")
     public ResponseEntity<Void> createTodo(@PathVariable String username,
                                            @PathVariable long id,@RequestBody Todo todo) {
         Todo todoCreate = todoService.save(todo);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(todoCreate.getId()).toUri();
+                .path("{id}").buildAndExpand(todoCreate.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
